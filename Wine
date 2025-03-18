@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kupzit® Bench Trial Worksheet</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; }
+        h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: bold; }
+        input, select { padding: 8px; width: 100%; margin-top: 5px; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+    <script>
+        function calculateDosages() {
+            let wineVolume = parseFloat(document.getElementById("wineVolume").value);
+            let dosages = [50, 100, 150, 200];
+            let table = document.getElementById("dosageResults");
+            table.innerHTML = "";
+
+            dosages.forEach(dosage => {
+                let amountMg = (wineVolume * dosage) / 1000; // Convert to milligrams
+                let slurryAmountMl = amountMg / 100; // Since 1 g Kupzit is mixed in 10 mL slurry
+                let rowWithSlurry = `<tr><td>${dosage} ppm</td><td>${amountMg.toFixed(2)} mg</td><td>${slurryAmountMl} mL</td></tr>`;
+                table.innerHTML += rowWithSlurry;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Kupzit® Bench Trial Worksheet</h2>
+    <p>Use this worksheet to determine the correct dosage of Kupzit® for hydrogen sulfide removal in wine.</p>
+    
+    <h3>Bench Trial Protocol</h3>
+    <p><strong>1. Sample Preparation:</strong></p>
+    <ul>
+        <li>Collect at least 250–500 mL of affected wine per trial.</li>
+        <li>Keep a control sample (0 ppm) for comparison.</li>
+    </ul>
+    <p><strong>2. Kupzit® Slurry Preparation:</strong></p>
+    <ul>
+        <li>Mix 1 g of Kupzit® in 10 mL of wine (1:10 ratio, 10% stock solution).</li>
+	<lo>*about 1ml-2ml of stock will be needed per lot.</lo>
+        <li>Stir well for homogeneity.</li>
+    </ul>
+    <p><strong>3. Dosage and Mixing:</strong></p>
+    <ul>
+        <li>Prepare test samples with 50, 100, 150, and 200 ppm of Kupzit®.</li>
+        <li>Calculate the exact gram dosage using the calculator below.</li>
+        <li>Add slurry to each sample and stir thoroughly.</li>
+    </ul>
+    <p><strong>4. Settling & Evaluation:</strong></p>
+    <ul>
+        <li>Let samples sit for 30 min to 1 hour (or overnight if necessary).</li>
+        <li>Observe for sedimentation and changes in aroma.</li>
+        <li>Filter samples if needed for clarity.</li>
+    </ul>
+    <p><strong>5. Sensory & Chemical Testing:</strong></p>
+    <ul>
+        <li>Assess hydrogen sulfide reduction (1-5 scale).</li>
+        <li>Note any aroma changes and off-flavor removal.</li>
+        <li>Optionally test for residual copper levels.</li>
+    </ul>
+    
+    <h3>1. Wine Volume Input</h3>
+    <div class="form-group">
+        <label for="wineVolume">Wine Volume (in mL):</label>
+        <input type="number" id="wineVolume" placeholder="Enter wine volume" required>
+    </div>
+    <button onclick="calculateDosages()">Calculate Dosages</button>
+
+    <h3>2. Dosage Calculation</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Dosage (ppm)</th>
+                <th>Amount of Kupzit® (mg)</th>
+                <th>Amount of Kupzit® Slurry (mL)</th>
+            </tr>
+        </thead>
+        <tbody id="dosageResults"></tbody>
+    </table>
+
+    <h3>3. Sensory & Chemical Analysis</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sample</th>
+                <th>H₂S Reduction (1-5)</th>
+                <th>Wine Aroma Impact</th>
+                <th>Off-Flavors Removed?</th>
+                <th>Copper Residue (if tested)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Control (0 ppm)</td>
+                <td><input type="text" style="width: 60px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>50 ppm</td>
+                <td><input type="text" style="width: 60px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>100 ppm</td>
+                <td><input type="text" style="width: 60px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>150 ppm</td>
+                <td><input type="text" style="width: 60px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>200 ppm</td>
+                <td><input type="text" style="width: 60px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+                <td><input type="text" style="width: 100px;"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
