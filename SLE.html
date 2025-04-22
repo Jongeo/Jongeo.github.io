@@ -10,17 +10,18 @@
       font-family: monospace;
       text-align: center;
       margin-top: 20vh;
+      cursor: pointer;
     }
 
     h1 {
       font-size: 4rem;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
 
     p {
       font-size: 1.2rem;
       color: #666;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
 
     #glitch {
@@ -29,8 +30,13 @@
       color: #999;
     }
 
-    .hidden {
-      display: none;
+    .slash {
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    .slash.flash {
+      color: red;
     }
 
     .cursor {
@@ -45,17 +51,8 @@
       50% { background: transparent; }
     }
 
-    a#clickable {
-      display: inline-block;
-      margin-top: 2em;
-      font-size: 1rem;
-      color: #111;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    a#clickable:hover {
-      color: #000;
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -64,45 +61,45 @@
   <p id="message">Page Not Found</p>
 
   <div id="glitch">
-    <span id="terminal">&gt; rerun.index / hidden.obj[0]</span><span class="cursor"></span>
+    <span id="terminal">&gt; rerun.index <span class="slash">/</span> hidden.obj[0]</span><span class="cursor"></span>
   </div>
-
-  <a id="clickable" class="hidden">click to retry</a>
 
   <script>
     const error = document.getElementById('error-code');
     const msg = document.getElementById('message');
-    const retry = document.getElementById('clickable');
+    const slash = document.querySelector('.slash');
 
     const altCodes = ['4Ø4', '4⚠4', '440'];
-    const altMsgs = ['page not real', 'you weren’t supposed to see this', 'click to retry'];
-
-    let hasGlitched = false;
+    const altMsgs = ['page not real', 'you weren’t supposed to see this', 'they told you this was gone'];
 
     function glitchText() {
-      if (hasGlitched) return;
+      const alt = Math.floor(Math.random() * altCodes.length);
+      error.textContent = altCodes[alt];
+      msg.textContent = altMsgs[alt];
 
       setTimeout(() => {
-        error.textContent = altCodes[Math.floor(Math.random() * altCodes.length)];
-        msg.textContent = altMsgs[Math.floor(Math.random() * altMsgs.length)];
-        retry.classList.remove('hidden');
-        hasGlitched = true;
-      }, 2500);
+        error.textContent = '404';
+        msg.textContent = 'Page Not Found';
+      }, 1500);
     }
 
-    glitchText();
-
-    retry.addEventListener('click', () => {
-      error.textContent = '404';
-      msg.textContent = 'Page Not Found';
-      retry.classList.add('hidden');
-      hasGlitched = false;
-
+    // Initial slash flash
+    setTimeout(() => {
+      slash.classList.add('flash');
       setTimeout(() => {
-        error.textContent = '440';
-        msg.textContent = 'Next time, look closer.';
-      }, 1500);
+        slash.classList.remove('flash');
+      }, 500);
+    }, 1000);
+
+    // Trigger glitch on any click
+    document.body.addEventListener('click', () => {
+      glitchText();
     });
+
+    // Optional: trigger once automatically
+    setTimeout(() => {
+      glitchText();
+    }, 2500);
   </script>
 </body>
 </html>
