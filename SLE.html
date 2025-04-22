@@ -55,7 +55,7 @@
       display: none;
     }
     .flash-letter {
-  transition: color 0.4s ease;
+  transition: color 0.5s ease;
 }
 
 .flash-letter.flash {
@@ -66,9 +66,9 @@
 <body>
   <h1 id="error-code">404</h1>
   <p id="message">
-  <span class="flash-letter">P</span>a<span class="flash-letter">g</span>e&nbsp;
-  <span class="flash-letter">N</span>o<span class="flash-letter">t</span>&nbsp;
-  <span class="flash-letter">F</span>o<span class="flash-letter">u</span>n<span class="flash-letter">d</span>
+  <span class="flash-letter">P</span><span>a</span><span class="flash-letter">g</span><span>e</span><span> </span>
+  <span class="flash-letter">N</span><span>o</span><span class="flash-letter">t</span><span> </span>
+  <span class="flash-letter">F</span><span>o</span><span class="flash-letter">u</span><span>n</span><span class="flash-letter">d</span>
 </p>
 
   <div id="glitch">
@@ -81,7 +81,7 @@
     const slash = document.querySelector('.slash');
 
     const altCodes = ['4Ø4', '4⚠4', '440'];
-    const altMsgs = ['page not real', 'you weren’t supposed to see this', 'they told you this was gone'];
+    const altMsgs = ['is page real', '...continue', 'manifest second look energy'];
 
     function glitchText() {
       const alt = Math.floor(Math.random() * altCodes.length);
