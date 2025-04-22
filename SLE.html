@@ -54,11 +54,22 @@
     .hidden {
       display: none;
     }
+    .flash-letter {
+  transition: color 0.4s ease;
+}
+
+.flash-letter.flash {
+  color: red;
+}
   </style>
 </head>
 <body>
   <h1 id="error-code">404</h1>
-  <p id="message">Page Not Found</p>
+  <p id="message">
+  <span class="flash-letter">P</span>a<span class="flash-letter">g</span>e&nbsp;
+  <span class="flash-letter">N</span>o<span class="flash-letter">t</span>&nbsp;
+  <span class="flash-letter">F</span>o<span class="flash-letter">u</span>n<span class="flash-letter">d</span>
+</p>
 
   <div id="glitch">
     <span id="terminal">&gt; rerun.index <span class="slash">/</span> hidden.obj[0]</span><span class="cursor"></span>
@@ -100,6 +111,15 @@
     setTimeout(() => {
       glitchText();
     }, 2500);
+    
+    // Flash red every other letter in "Page Not Found"
+setTimeout(() => {
+  document.querySelectorAll('.flash-letter').forEach((el, i) => {
+    setTimeout(() => el.classList.add('flash'), i * 60); // staggered animation
+    setTimeout(() => el.classList.remove('flash'), 300 + i * 60);
+  });
+}, 1000);
+    
   </script>
 </body>
 </html>
