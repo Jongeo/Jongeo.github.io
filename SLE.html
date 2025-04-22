@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>404 Not Found</title>
+  <style>
+    body {
+      background: #fff;
+      color: #111;
+      font-family: monospace;
+      text-align: center;
+      margin-top: 20vh;
+    }
+
+    h1 {
+      font-size: 4rem;
+      transition: all 0.3s ease;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    #glitch {
+      font-size: 0.9rem;
+      margin-top: 40px;
+      color: #999;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 1ch;
+      background-color: #333;
+      animation: blink 1s steps(2, start) infinite;
+      vertical-align: bottom;
+    }
+
+    @keyframes blink {
+      50% { background: transparent; }
+    }
+
+    a#clickable {
+      display: inline-block;
+      margin-top: 2em;
+      font-size: 1rem;
+      color: #111;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    a#clickable:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="error-code">404</h1>
+  <p id="message">Page Not Found</p>
+
+  <div id="glitch">
+    <span id="terminal">&gt; rerun.index / hidden.obj[0]</span><span class="cursor"></span>
+  </div>
+
+  <a id="clickable" class="hidden">click to retry</a>
+
+  <script>
+    const error = document.getElementById('error-code');
+    const msg = document.getElementById('message');
+    const retry = document.getElementById('clickable');
+
+    const altCodes = ['4Ø4', '4⚠4', '440'];
+    const altMsgs = ['page not real', 'you weren’t supposed to see this', 'click to retry'];
+
+    let hasGlitched = false;
+
+    function glitchText() {
+      if (hasGlitched) return;
+
+      setTimeout(() => {
+        error.textContent = altCodes[Math.floor(Math.random() * altCodes.length)];
+        msg.textContent = altMsgs[Math.floor(Math.random() * altMsgs.length)];
+        retry.classList.remove('hidden');
+        hasGlitched = true;
+      }, 2500);
+    }
+
+    glitchText();
+
+    retry.addEventListener('click', () => {
+      error.textContent = '404';
+      msg.textContent = 'Page Not Found';
+      retry.classList.add('hidden');
+      hasGlitched = false;
+
+      setTimeout(() => {
+        error.textContent = '440';
+        msg.textContent = 'Next time, look closer.';
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
