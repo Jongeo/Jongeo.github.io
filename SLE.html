@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="="en">
 <head>
   <meta charset="UTF-8">
   <title>404 Not Found</title>
@@ -15,28 +15,19 @@
 
     h1 {
       font-size: 4rem;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     p {
       font-size: 1.2rem;
       color: #666;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     #glitch {
       font-size: 0.9rem;
       margin-top: 40px;
       color: #999;
-    }
-
-    .slash {
-      color: inherit;
-      transition: color 0.3s ease;
-    }
-
-    .slash.flash {
-      color: red;
     }
 
     .cursor {
@@ -51,75 +42,122 @@
       50% { background: transparent; }
     }
 
+    .flash {
+      color: chartreuse;
+    }
+
     .hidden {
       display: none;
     }
-    .flash-letter {
-  transition: color 0.5s ease;
-}
 
-.flash-letter.flash {
-  color: red;
-}
+    #retry-link {
+      margin-top: 2em;
+      font-size: 1rem;
+      color: #111;
+      text-decoration: underline;
+      cursor: pointer;
+      display: none;
+    }
+
+    #secret-message, #terminal, #final-message {
+      display: none;
+      margin-top: 2em;
+      font-size: 1rem;
+      color: #222;
+    }
+
+    .terminal-line {
+      text-align: left;
+      width: fit-content;
+      margin: 0 auto;
+      white-space: pre;
+    }
   </style>
 </head>
 <body>
   <h1 id="error-code">404</h1>
   <p id="message">
-  <span class="flash-letter">P</span><span>a</span><span class="flash-letter">g</span><span>e</span><span> </span>
-  <span class="flash-letter">N</span><span>o</span><span class="flash-letter">t</span><span> </span>
-  <span class="flash-letter">F</span><span>o</span><span class="flash-letter">u</span><span>n</span><span class="flash-letter">d</span>
-</p>
+    <span id="msg1">P</span>a<span id="msg2">g</span>e 
+    <span id="msg3">N</span>o<span id="msg4">t</span> 
+    <span id="msg5">F</span>o<span id="msg6">u</span>n<span id="msg7">d</span>
+  </p>
 
   <div id="glitch">
-    <span id="terminal">&gt; rerun.index <span class="slash">/</span> hidden.obj[0]</span><span class="cursor"></span>
+    <span id="terminal-line">&gt; rerun.index <span id="slash">/</span> hidden.obj[0]</span><span class="cursor"></span>
   </div>
+
+  <div id="retry-link">click to retry</div>
+  <div id="secret-message">you weren’t supposed to see this</div>
+  <div id="terminal"></div>
+  <div id="final-message">look out for the next drop.</div>
 
   <script>
     const error = document.getElementById('error-code');
-    const msg = document.getElementById('message');
-    const slash = document.querySelector('.slash');
+    const slash = document.getElementById('slash');
+    const retry = document.getElementById('retry-link');
+    const secret = document.getElementById('secret-message');
+    const terminal = document.getElementById('terminal');
+    const final = document.getElementById('final-message');
 
-    const altCodes = ['4Ø4', '4⚠4', '440'];
-    const altMsgs = ['is page real', '...continue', 'manifest second look energy'];
+    const glitchLetters = ['msg1', 'msg2', 'msg3', 'msg4', 'msg5', 'msg6', 'msg7'];
 
-    function glitchText() {
-      const alt = Math.floor(Math.random() * altCodes.length);
-      error.textContent = altCodes[alt];
-      msg.textContent = altMsgs[alt];
-
+    function randomGlitch() {
+      error.textContent = ['4Ø4', '440', '4⚠4'][Math.floor(Math.random() * 3)];
+      document.getElementById(glitchLetters[Math.floor(Math.random() * glitchLetters.length)]).classList.add('flash');
+      slash.style.color = 'chartreuse';
       setTimeout(() => {
         error.textContent = '404';
-        msg.textContent = 'Page Not Found';
-      }, 1500);
+        glitchLetters.forEach(id => document.getElementById(id).classList.remove('flash'));
+        slash.style.color = '';
+      }, 600);
     }
 
-    // Initial slash flash
+    // Trigger subtle glitch and then reveal retry
     setTimeout(() => {
-      slash.classList.add('flash');
+      randomGlitch();
       setTimeout(() => {
-        slash.classList.remove('flash');
-      }, 500);
-    }, 1000);
+        retry.style.display = 'inline-block';
+      }, 1500);
+    }, 2000);
 
-    // Trigger glitch on any click
-    document.body.addEventListener('click', () => {
-      glitchText();
+    retry.addEventListener('click', () => {
+      retry.style.display = 'none';
+      secret.style.display = 'block';
+
+      setTimeout(() => {
+        secret.style.display = 'none';
+        terminal.style.display = 'block';
+
+        const lines = [
+          "> reboot.override()",
+          "> decrypting.obj[0]…",
+          "> corrupted string detected",
+          "> restoring payload"
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+          if (i < lines.length) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.textContent = lines[i++];
+            terminal.appendChild(line);
+          } else {
+            clearInterval(interval);
+            terminal.style.display = 'none';
+            final.style.display = 'block';
+            setTimeout(() => {
+              final.style.display = 'none';
+              terminal.innerHTML = '';
+              retry.style.display = 'none';
+              secret.style.display = 'none';
+              terminal.style.display = 'none';
+              final.style.display = 'none';
+            }, 2500);
+          }
+        }, 800);
+      }, 2000);
     });
-
-    // Optional: trigger once automatically
-    setTimeout(() => {
-      glitchText();
-    }, 2500);
-    
-    // Flash red every other letter in "Page Not Found"
-setTimeout(() => {
-  document.querySelectorAll('.flash-letter').forEach((el, i) => {
-    setTimeout(() => el.classList.add('flash'), i * 60); // staggered animation
-    setTimeout(() => el.classList.remove('flash'), 300 + i * 60);
-  });
-}, 1000);
-    
   </script>
 </body>
 </html>
