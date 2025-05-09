@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kupzit® Bench Trial & Full Lot Worksheet</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; }
+        h2, h3 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: bold; }
+        input { padding: 8px; margin-top: 5px; }
+        button { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+    <script>
+        function calculateDosages() {
+            let wineVolume = parseFloat(document.getElementById("wineVolume").value);
+            let dosages = [50, 100, 150, 200];
+            let table = document.getElementById("dosageResults");
+            table.innerHTML = "";
+
+            dosages.forEach(dosage => {
+                let amountMg = (wineVolume * dosage) / 1000;
+                let slurryAmountMl = amountMg / 100;
+                let rowWithSlurry = `<tr><td>${dosage} ppm</td><td>${amountMg.toFixed(2)} mg</td><td>${slurryAmountMl} mL</td></tr>`;
+                table.innerHTML += rowWithSlurry;
+            });
+        }
+
+        function generateLotInputs() {
+            const count = parseInt(document.getElementById("lotCount").value);
+            const container = document.getElementById("multiLotInputs");
+            container.innerHTML = "";
+
+            for (let i = 0; i < count; i++) {
+                container.innerHTML += `
+                    <div class="form-group">
+                        <label>Lot ${i + 1} Label:</label>
+                        <input type="text" id="label${i}" placeholder="e.g. Block A">
+                        <label>Volume (Liters):</label>
+                        <input type="number" id="volume${i}" placeholder="e.g. 1150">
+                        <label>Dosage (ppm):</label>
+                        <input type="number" id="ppm${i}" placeholder="e.g. 150">
+                    </div>
+                    <hr>
+                `;
+            }
+        }
+
+        function calculateMultipleLots() {
+            const count = parseInt(document.getElementById("lotCount").value);
+            const result = document.getElementById("lotResult");
+            result.innerHTML = "";
+
+            for (let i = 0; i < count; i++) {
+                const label = document.getElementById(`label${i}`).value || `Lot ${i + 1}`;
+                const volume = parseFloat(document.getElementById(`volume${i}`).value);
+                const ppm = parseFloat(document.getElementById(`ppm${i}`).value);
+
+                if (!isNaN(volume) && !isNaN(ppm)) {
+                    const grams = (volume * ppm) / 1000;
+                    const slurryWine = grams * 10;
+                    const ghL = ppm * 0.1;
+
+                    result.innerHTML += `
+                        <h4>${label}</h4>
+                        <p><strong>Kupzit® Needed:</strong> ${grams.toFixed(2)} g</p>
+                        <p><strong>Slurry Wine Needed:</strong> ${slurryWine.toFixed(0)} mL (1:10 ratio)</p>
+                        <p><em>g/hL = ppm × 0.1 → ${ppm} ppm = ${ghL.toFixed(2)} g/hL</em></p>
+                        <p><code>${volume} L × ${ppm} ppm ÷ 1000 = ${grams.toFixed(2)} g</code></p>
+                        <hr>
+                    `;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Kupzit® Bench Trial & Full Lot Worksheet</h2>
+    <p>Use this worksheet to calculate dosages for bench trials and full lot applications of Kupzit®.</p>
+
+    <h3>Bench Trial Protocol</h3>
+    <ul>
+        <li>Prepare test wine samples (250–500 mL).</li>
+        <li>Prepare a 1:10 slurry (1 g Kupzit® : 10 mL wine).</li>
+        <li>Add 50–200 ppm dosages and stir thoroughly.</li>
+        <li>Let rest for 30 mins–24 hrs.</li>
+        <li>Evaluate and record H₂S reduction and sensory data.</li>
+    </ul>
+
+    <h3>1. Bench Trial Dosage Calculator</h3>
+    <div class="form-group">
+        <label for="wineVolume">Wine Volume (in mL):</label><br>
+        <input type="number" id="wineVolume" placeholder="Enter wine volume">
+    </div>
+    <button onclick="calculateDosages()">Calculate Dosages</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Dosage (ppm)</th>
+                <th>Amount of Kupzit® (mg)</th>
+                <th>Amount of Kupzit® Slurry (mL)</th>
+            </tr>
+        </thead>
+        <tbody id="dosageResults"></tbody>
+    </table>
+
+    <h3>2. Sensory & Chemical Analysis</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sample</th>
+                <th>H₂S Reduction (1-5)</th>
+                <th>Wine Aroma Impact</th>
+                <th>Off-Flavors Removed?</th>
+                <th>Copper Residue (if tested)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Control</td><td><input style="width:60px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td></tr>
+            <tr><td>50 ppm</td><td><input style="width:60px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td></tr>
+            <tr><td>100 ppm</td><td><input style="width:60px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td></tr>
+            <tr><td>150 ppm</td><td><input style="width:60px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td></tr>
+            <tr><td>200 ppm</td><td><input style="width:60px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td><td><input style="width:100px;"></td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Full Lot Dosage Calculator (Multiple Lots)</h3>
+    <div class="form-group">
+        <label for="lotCount">How many wine lots are you working on?</label>
+        <input type="number" id="lotCount" placeholder="e.g. 3">
+    </div>
+    <button onclick="generateLotInputs()">Generate Lot Inputs</button>
+
+    <div id="multiLotInputs"></div>
+    <button onclick="calculateMultipleLots()">Calculate Dosage for All Lots</button>
+
+    <div id="lotResult" style="margin-top: 20px;"></div>
+</body>
+</html>
